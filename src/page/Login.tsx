@@ -7,8 +7,8 @@ import { fakeAuth } from "../App";
 const AuthLogin: React.FC<RouteComponentProps> = (props) => {
     const [redirectToReferrer, setRedirectToReferrer] = useState(false);
 
-    const login = () => {
-        fakeAuth.authenticate(() => {
+    const login = (userName: string, userPassword: string | number) => {
+        fakeAuth.authenticate(userName, userPassword, () => {
             setRedirectToReferrer(true);
         });
     };
@@ -25,7 +25,7 @@ const AuthLogin: React.FC<RouteComponentProps> = (props) => {
 }
 
 interface LoginProps extends FormComponentProps {
-    login: () => void;
+    login: (userName : string, userPassword: string | number) => void;
 }
 
 const Login: React.FC<LoginProps> = (props) => {
@@ -35,9 +35,9 @@ const Login: React.FC<LoginProps> = (props) => {
         props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                props.login(values.username, values.password);
             }
         });
-        props.login();
     };
 
     const { getFieldDecorator } = props.form;
