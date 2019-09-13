@@ -7,7 +7,7 @@ import { fakeAuth } from "../App";
 const Logo: React.FC = () => {
     return (
         <div className="logo">
-            <img src="%PUBLIC_SRC%/logo192.png" alt="logo"></img>
+            <img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="logo" width="40px" height="40px"></img>
         </div>
     )
 }
@@ -43,10 +43,10 @@ const AuthNav = withRouter(
 const Header = () => {
     return (
         <Row>
-            <Col span={4}>
+            <Col span={4} offset={1}>
                 <Logo></Logo>
             </Col>
-            <Col span={6} offset={14}>
+            <Col span={6} offset={10}>
                 <AuthNav></AuthNav>
             </Col>
         </Row>
