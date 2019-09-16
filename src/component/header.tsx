@@ -1,13 +1,14 @@
-import { Col, Menu, Row } from "antd/es";
+import { Col, Divider, Menu, Row } from "antd/es";
 import { History } from "history";
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { fakeAuth } from "../App";
+import logo from "../logo.svg";
 
 const Logo: React.FC = () => {
     return (
         <div className="logo">
-            <img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="logo" width="40px" height="40px"></img>
+            <img src={ logo } alt="logo" width="40px" height="40px"></img>
         </div>
     )
 }
@@ -42,14 +43,17 @@ const AuthNav = withRouter(
 
 const Header = () => {
     return (
-        <Row>
-            <Col span={4} offset={1}>
-                <Logo></Logo>
-            </Col>
-            <Col span={6} offset={10}>
-                <AuthNav></AuthNav>
-            </Col>
-        </Row>
+        <div>
+            <Row>
+                <Col span={4} offset={1}>
+                    <Logo></Logo>
+                </Col>
+                <Col span={6} offset={10}>
+                    <AuthNav></AuthNav>
+                </Col>
+            <Divider></Divider>
+            </Row>
+        </div>
     )
 }
 

@@ -66,7 +66,7 @@ function AuthAPP() {
         <Switch>
           <Route path="/"  exact component={ Home } />
           <Route path="/space" component={ Space } />
-          <Route path="/goods/:goodsId" component={ Goods } />
+          <Route path="/goods/:goodsKind/:goodsId" component={ Goods } />
           <Route path="/login" component={ Login } />
         </Switch>
     </Router>

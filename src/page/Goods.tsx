@@ -1,11 +1,12 @@
 import { Button } from "antd";
-import { Card, Col, Comment, Descriptions, List, Modal, Row, Tooltip } from "antd/es";
+import { Breadcrumb, Card, Col, Comment, Descriptions, Icon, List, Modal, Row, Tooltip } from "antd/es";
 import moment from "moment";
 import React, { useState } from "react";
 import { RouteComponentProps } from "react-router";
 import { getCurUser } from "../App";
 import Footer from "../component/footer";
 import Header from "../component/header";
+import { getGoods } from "./Home";
 
 interface OrderModel {
     "user": string,
@@ -38,7 +39,8 @@ const comments = [
 interface GoodsProps extends RouteComponentProps {
     match: {
         params: {
-            goodsId: number;
+            goodsId: string;
+            goodsKind: string;
         },
         isExact, path, url
     }
@@ -84,17 +86,19 @@ function success() {
 }
 
 const Goods: React.FC<GoodsProps> = ({ match }) => {
-    const [goodsName] = useState("joke");
-    const [goodsPrice] = useState(5);
-    const [discount] = useState(0.85);
+    const { goodsKind, goodsId } = match.params;
+    const { goodsName, goodsPrice, discount } = getGoods(goodsKind, goodsId);
     const [buyNumber, setBuyNumber] = useState(1);
-    const sumPrice = buyNumber * discount * goodsPrice;
+    const sumPrice = (buyNumber * discount * goodsPrice).toFixed(2);
 
     return (
         <div>
             <Header></Header>
             <main>
-                <h3 style={{ padding: 15 }}>this {match.params.goodsId}goods</h3>
+                <Breadcrumb>
+                    <Breadcrumb.Item href="/"><Icon type="home"></Icon>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item href="#"><Icon type="user"></Icon>{goodsName}</Breadcrumb.Item>
+                </Breadcrumb>
                 <div style={{ height: 16 }}></div>
                 <Row>
                     <Col offset={2} span={6}>

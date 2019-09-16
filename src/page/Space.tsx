@@ -1,4 +1,4 @@
-import { Comment, Descriptions, List } from "antd/es";
+import { Card, Comment, Descriptions, Divider, List } from "antd/es";
 import React from "react";
 import { Redirect } from "react-router";
 import { fakeAuth, getCurUser } from "../App";
@@ -14,12 +14,11 @@ const Space: React.FC = () => {
             <div>
                 <Header></Header>
                 <main>
-                    <div>
-                        <Descriptions title="个人信息" layout="horizontal" size="middle">
-                            <Descriptions.Item label="用户名">{curUser.userName}</Descriptions.Item>
-                            <Descriptions.Item label="用户密码">{curUser.userPassword}</Descriptions.Item>
-                        </Descriptions>
-                    </div>
+                    <Descriptions title="个人信息" layout="horizontal" size="middle">
+                        <Descriptions.Item label="用户名">{curUser.userName}</Descriptions.Item>
+                        <Descriptions.Item label="用户密码">{curUser.userPassword}</Descriptions.Item>
+                    </Descriptions>
+                    <Divider></Divider>
                     <div>
                         <h2>我的评论</h2>
                         <SpaceComment></SpaceComment>
@@ -77,9 +76,13 @@ const SpaceList: React.FC = () => {
             dataSource={orders}
             renderItem={item => (
                 <li>
-                    <p style={{ lineHeight: "24px" }}>购买名称: <span>{item.goodsName}</span></p>
-                    <p style={{ lineHeight: "24px" }}>购买数量: <span>{item.goodsNumber}</span></p>
-                    <p style={{ lineHeight: "48px" }}>总价: <span style={{ color: "red", fontSize: "24px" }}>{item.sumPrice}</span></p>
+                    <Card hoverable={true}>
+                        <Descriptions layout="horizontal" size="middle">
+                            <Descriptions.Item label="购买名称">: <span>{item.goodsName}</span></Descriptions.Item>
+                            <Descriptions.Item label="购买数量">: <span>{item.goodsNumber}</span></Descriptions.Item>
+                            <Descriptions.Item label="总价">: <span style={{ color: "red", fontSize: "24px" }}>{item.sumPrice}</span></Descriptions.Item>
+                        </Descriptions>
+                    </Card>
                 </li>
             )}
         />
