@@ -1,4 +1,4 @@
-[
+export const user = [
     {
         "userId": 1,
         "userName": "Jack",
@@ -10,3 +10,9 @@
         "userPassword": "aaa"
     }
 ]
+
+const curUser = {
+    "userId": -1,
+    "userName": "",
+    "userPassword": ""
+};
