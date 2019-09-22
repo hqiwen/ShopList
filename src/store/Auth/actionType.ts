@@ -10,8 +10,7 @@ export interface GetUserAction {
 
 export interface LoginAction {
     type: typeof LOGIN;
-    username: string;
-    password: string | number;
+    user: User;
 }
 
 export interface SetAuthenticateAction {
@@ -24,7 +23,7 @@ export interface LogoutAction {
     cb: Function;
 }
 
-export type AuthActionTypes = GetUserAction | SetAuthenticateAction;
+export type AuthActionTypes = GetUserAction | SetAuthenticateAction | LoginAction;
 
 export interface User {
     userId: number;
@@ -34,5 +33,6 @@ export interface User {
 
 export interface AuthState {
     isAuthenticated: false;
+    curUser: User,
     user: User[];
 }

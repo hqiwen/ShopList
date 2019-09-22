@@ -2,39 +2,19 @@ import { Button } from "antd";
 import { Breadcrumb, Card, Col, Comment, Descriptions, Icon, List, Modal, Row, Tooltip } from "antd/es";
 import moment from "moment";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux/es";
 import { RouteComponentProps } from "react-router";
-import { getCurUser } from "../App";
 import Footer from "../component/footer";
 import Header from "../component/header";
-import { getGoods } from "./Home";
+import { RootState } from "../index";
+import { Comment as CommentType } from "../store/Comments/actionType";
+import { POSTORDER } from "../store/Orders/actionType";
 
-interface OrderModel {
-    "user": string,
-    "goodsName": string,
-    "sumPrice": number,
-    "goodsNumber": number
+function getGoods(goods, goodsKind: string, goodsId: number) {
+    const GoodsArray = goods.find(val => val.GoodsKind === goodsKind).GoodsProduct;
+    const goodOnly = GoodsArray.find(val => val.goodsId === goodsId);
+    return goodOnly;
 }
-
-let order: OrderModel[] = [{
-    "user" : "default",
-    "goodsName": "A0",
-    "sumPrice": 0,
-    "goodsNumber": 0
-}];
-
-const comments = [
-    {
-        "user": "Han Solo",
-        "avatar": "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        "content": "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
-        "updateAt": new Date("2019-9-24")
-    } , {
-        "user": "Jack",
-        "avatar": "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        "content": "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
-        "updateAt": new Date("2019-9-24")
-    }
-]
 
 interface GoodsProps extends RouteComponentProps {
     match: {
@@ -43,33 +23,10 @@ interface GoodsProps extends RouteComponentProps {
             goodsKind: string;
         },
         isExact, path, url
-    }
+    },
+    goods: any;
 }
 
-function postOrder(goodsName, sumPrice, goodsNumber) {
-    let curUser = getCurUser();
-    if (curUser.userId >= 0) {
-        order.push({
-            "user": curUser.userName,
-            "goodsName": goodsName,
-            "sumPrice": sumPrice,
-            "goodsNumber": goodsNumber
-        });
-        success();
-    } else {
-        loginError();
-    }
-    
-    console.log(order);
-}
-
-function getOrders() {
-    return order;
-}
-
-function getComments() {
-    return comments;
-}
 
 function loginError() {
     Modal.error({
@@ -86,10 +43,23 @@ function success() {
 }
 
 const Goods: React.FC<GoodsProps> = ({ match }) => {
+    const goods = useSelector<RootState, any>(state  => state.Goods);
+    const comments: CommentType[] = useSelector<RootState, any>(state => state.Comments);
+    const curUser = useSelector<RootState, any>(state => state.Auth.curUser);
     const { goodsKind, goodsId } = match.params;
-    const { goodsName, goodsPrice, discount } = getGoods(goodsKind, goodsId);
+    const { goodsName, goodsPrice, discount } = getGoods(goods, goodsKind, parseInt(goodsId));
     const [buyNumber, setBuyNumber] = useState(1);
     const sumPrice = (buyNumber * discount * goodsPrice).toFixed(2);
+    const dispatch = useDispatch();
+
+    function postOrder(goodsName, sumPrice, goodsNumber) {
+        if (curUser.userId >= 0) {
+            dispatch({ type: POSTORDER, order: { goodsName: goodsName, sumPrice: sumPrice, buyNumber: goodsNumber } })
+            success();
+        } else {
+            loginError();
+        }
+    }
 
     return (
         <div>
@@ -122,7 +92,7 @@ const Goods: React.FC<GoodsProps> = ({ match }) => {
                         <p style={{ lineHeight: "24px" }}>购买数量: <span>{buyNumber}</span></p>
                         <Button style={{ width: "50%" }} onClick={() => setBuyNumber(buyNumber + 1)}>添加</Button>
                         <Button style={{ width: "50%" }} onClick={() => buyNumber < 1 ? setBuyNumber(0) : setBuyNumber(buyNumber - 1)}>减少</Button>
-                        <p style={{ lineHeight: "48px" }}>总价: <span style={{color: "red", fontSize: "24px"}}>{sumPrice}</span></p>
+                        <p style={{ lineHeight: "48px" }}>总价: <span style={{ color: "red", fontSize: "24px" }}>{sumPrice}</span></p>
                         <Button style={{ width: "100%" }} onClick={() => postOrder(goodsName, sumPrice, buyNumber)}>提交</Button>
                     </Col>
                 </Row>
@@ -139,7 +109,7 @@ const Goods: React.FC<GoodsProps> = ({ match }) => {
                                 avatar={item.avatar}
                                 content={<p>{item.content}</p>}
                                 datetime={<Tooltip
-                                    title={ moment(item.updateAt)
+                                    title={moment(item.updateAt)
                                         .format('YYYY-MM-DD HH:mm:ss')}
                                 >
                                     <span>
@@ -159,5 +129,4 @@ const Goods: React.FC<GoodsProps> = ({ match }) => {
     )
 }
 
-export { getComments, getOrders };
 export default Goods;

@@ -1,15 +1,18 @@
 import { Card, Comment, Descriptions, Divider, List } from "antd/es";
 import React from "react";
+import { useSelector } from "react-redux/es";
 import { Redirect } from "react-router";
-import { fakeAuth, getCurUser } from "../App";
 import Footer from "../component/footer";
 import Header from "../component/header";
-import { getComments, getOrders } from "./Goods";
+import { RootState } from "../index";
+import { Comment as CommentType } from "../store/Comments/actionType";
+import { Order as OrderType } from "../store/Orders/actionType";
 
 const Space: React.FC = () => {
-    let curUser = getCurUser();
+    const isAuthenticated = useSelector<RootState, any>(state => state.Auth.isAuthenticated);
+    const curUser = useSelector<RootState, any>(state => state.Auth.curUser);
 
-    return fakeAuth.isAuthenticated ?
+    return isAuthenticated ?
         (
             <div>
                 <Header></Header>
@@ -35,24 +38,17 @@ const Space: React.FC = () => {
         )
 }
 
-function getOwnerComments() {
-    let userName = getCurUser().userName;
-    return getComments().filter((val) => val.user === userName);
-}
-
-function getOwnerOrders() {
-    let userName = getCurUser().userName;
-    return getOrders().filter((val) => val.user === userName);
-}
-
 const SpaceComment: React.FC = () => {
-    let comments = getOwnerComments();
+    const comments: CommentType[] = useSelector<RootState, any>(state => state.Comments);
+    const curUser = useSelector<RootState, any>(state => state.Auth.curUser);
+    const userName = curUser.userName;
+    const ownComments = comments.filter(val => val.user === userName);
     return (
         <List
             style={{ padding: 15 }}
-            header={`${comments.length} comments`}
+            header={`${ownComments.length} comments`}
             itemLayout="horizontal"
-            dataSource={comments}
+            dataSource={ ownComments }
             renderItem={item => (
                 <li>
                     <Comment
@@ -67,13 +63,17 @@ const SpaceComment: React.FC = () => {
 }
 
 const SpaceList: React.FC = () => {
-    let orders = getOwnerOrders();
+    const orders: OrderType[] = useSelector<RootState, any>(state => state.Orders);
+    const curUser = useSelector<RootState, any>(state => state.Auth.curUser);
+    const userName = curUser.userName;
+    const ownOrders = orders.filter(val => val.user === userName);
+
     return (
         <List
             style={{ padding: 15 }}
-            header={`${orders.length} orders`}
+            header={`${ownOrders.length} orders`}
             itemLayout="horizontal"
-            dataSource={orders}
+            dataSource={ownOrders}
             renderItem={item => (
                 <li>
                     <Card hoverable={true}>

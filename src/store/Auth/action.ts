@@ -1,4 +1,5 @@
-import { AuthActionTypes, GETUSER, SetAuthenticate, User } from "./actionType";
+import { login } from "../../Api/api";
+import { AuthActionTypes, GETUSER, LOGIN, SetAuthenticate, User } from "./actionType";
 
 export const getUser = (username: string): AuthActionTypes => ({
     type: GETUSER,
@@ -22,6 +23,17 @@ export function shouldLogin(user: User[], username: string, password: string | n
         return false;
     }
 }
+
+//@api/login
+const Login = (body) => {
+    return function (dispatch) {
+        login(body).then(payload => {//{ user: User, succcess : string, error : string }
+            dispatch({ type: LOGIN, payload });
+        });
+    }
+}
+
+export { Login };
 
 let curUser = {
     "userId": -1,
