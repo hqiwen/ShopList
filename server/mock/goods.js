@@ -1,4 +1,4 @@
-[
+export const goods = [
     {
         "GoodsKind": "家电",
         "GoodsProduct": [
