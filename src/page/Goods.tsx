@@ -11,8 +11,9 @@ import { Comment as CommentType } from "../store/Comments/actionType";
 import { POSTORDER } from "../store/Orders/actionType";
 
 function getGoods(goods, goodsKind: string, goodsId: number) {
-    const GoodsArray = goods.find(val => val.GoodsKind === goodsKind).GoodsProduct;
+    const GoodsArray = goods.find(val => val.GoodsKind === goodsKind).GoodsProducts;
     const goodOnly = GoodsArray.find(val => val.goodsId === goodsId);
+    console.log(goodOnly);
     return goodOnly;
 }
 
@@ -54,7 +55,7 @@ const Goods: React.FC<GoodsProps> = ({ match }) => {
 
     function postOrder(goodsName, sumPrice, goodsNumber) {
         if (curUser.userId >= 0) {
-            dispatch({ type: POSTORDER, order: { goodsName: goodsName, sumPrice: sumPrice, buyNumber: goodsNumber } })
+            dispatch({ type: POSTORDER, order: { user: curUser.userName, goodsName: goodsName, sumPrice: sumPrice, goodsNumber: goodsNumber } })
             success();
         } else {
             loginError();

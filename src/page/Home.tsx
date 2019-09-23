@@ -30,11 +30,11 @@ const Home: React.FC = () => {
                         </Sider>
                     </Col>
                     <Col span={20}>
-                        <SameKindGoods GoodsKind={goods[0].GoodsKind} GoodsProduct={goods[0].GoodsProduct}></SameKindGoods>
+                        <SameKindGoods GoodsKind={goods[0].GoodsKind} GoodsProducts={goods[0].GoodsProducts}></SameKindGoods>
                         <GoodsPadding></GoodsPadding>
-                        <SameKindGoods GoodsKind={goods[1].GoodsKind} GoodsProduct={goods[1].GoodsProduct}></SameKindGoods>
+                        <SameKindGoods GoodsKind={goods[1].GoodsKind} GoodsProducts={goods[1].GoodsProducts}></SameKindGoods>
                         <GoodsPadding></GoodsPadding>
-                        <SameKindGoods GoodsKind={goods[1].GoodsKind} GoodsProduct={goods[1].GoodsProduct}></SameKindGoods>
+                        <SameKindGoods GoodsKind={goods[1].GoodsKind} GoodsProducts={goods[1].GoodsProducts}></SameKindGoods>
                     </Col>
                 </Row>
             </Layout>

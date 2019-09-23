@@ -8,7 +8,7 @@ function getPath(goodsKind: string, goodsId: number) {
 
 interface kindProps {
     "GoodsKind": string,
-    "GoodsProduct":
+    "GoodsProducts":
     {
         "goodsId": number,
         "goodsName": string,
@@ -19,24 +19,24 @@ interface kindProps {
 
 
 const SameKindGoods: React.FC<kindProps> = (props) => {
-    const GoodsProduct = props.GoodsProduct;
+    const GoodsProducts = props.GoodsProducts;
     const goodsKind = props.GoodsKind;
-
+    console.log(GoodsProducts);
     return (
         <div className="gutter">
             <h3 style={{ padding: 15 }}>{props.GoodsKind}</h3>
             <Row gutter={16}>
                 <Col className="gutter-row" xs={12} sm={8} md={6} lg={6} xl={6}>
-                    <ShowCard path={getPath(goodsKind, GoodsProduct[0].goodsId)} goodsName={GoodsProduct[0].goodsName} goodsPrice={GoodsProduct[0].goodsPrice}></ShowCard>
+                    <ShowCard path={getPath(goodsKind, GoodsProducts[0].goodsId)} goodsName={GoodsProducts[0].goodsName} goodsPrice={GoodsProducts[0].goodsPrice}></ShowCard>
                 </Col>
                 <Col className="gutter-row" xs={12} sm={8} md={6} lg={6} xl={6}>
-                    <ShowCard path={getPath(goodsKind, GoodsProduct[1].goodsId)} goodsName={GoodsProduct[1].goodsName} goodsPrice={GoodsProduct[1].goodsPrice}></ShowCard>
+                    <ShowCard path={getPath(goodsKind, GoodsProducts[1].goodsId)} goodsName={GoodsProducts[1].goodsName} goodsPrice={GoodsProducts[1].goodsPrice}></ShowCard>
                 </Col>
                 <Col className="gutter-row" xs={12} sm={8} md={6} lg={6} xl={6}>
-                    <ShowCard path={getPath(goodsKind, GoodsProduct[2].goodsId)} goodsName={GoodsProduct[2].goodsName} goodsPrice={GoodsProduct[2].goodsPrice}></ShowCard>
+                    <ShowCard path={getPath(goodsKind, GoodsProducts[2].goodsId)} goodsName={GoodsProducts[2].goodsName} goodsPrice={GoodsProducts[2].goodsPrice}></ShowCard>
                 </Col>
                 <Col className="gutter-row" xs={12} sm={8} md={6} lg={6} xl={6}>
-                    <ShowCard path={getPath(goodsKind, GoodsProduct[2].goodsId)} goodsName={GoodsProduct[2].goodsName} goodsPrice={GoodsProduct[2].goodsPrice}></ShowCard>
+                    <ShowCard path={getPath(goodsKind, GoodsProducts[2].goodsId)} goodsName={GoodsProducts[2].goodsName} goodsPrice={GoodsProducts[2].goodsPrice}></ShowCard>
                 </Col>
             </Row>
         </div>

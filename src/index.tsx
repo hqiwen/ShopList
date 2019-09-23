@@ -7,6 +7,8 @@ import * as serviceWorker from './serviceWorker';
 import configureStore from './store';
 
 const store = configureStore();
+const state = store.getState();
+export type RootState = typeof state;
 
 ReactDOM.render(<Provider store={store}> <App /></Provider>, document.getElementById('root'));
 

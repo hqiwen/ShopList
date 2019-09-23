@@ -21,7 +21,7 @@ const defaultState: AuthState = {
     ]
 };
 
-export default function Auth(state = defaultState, action: AuthActionTypes): AuthState {
+export default function Auth(state: AuthState = defaultState, action: AuthActionTypes): AuthState {
     switch (action.type) {
         case GETUSER:
             return state;
@@ -33,5 +33,7 @@ export default function Auth(state = defaultState, action: AuthActionTypes): Aut
             return Object.assign({}, state, {
                 curUser: action.user
             })
+        default:
+            return state
     }
 };

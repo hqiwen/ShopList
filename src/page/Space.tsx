@@ -11,6 +11,7 @@ import { Order as OrderType } from "../store/Orders/actionType";
 const Space: React.FC = () => {
     const isAuthenticated = useSelector<RootState, any>(state => state.Auth.isAuthenticated);
     const curUser = useSelector<RootState, any>(state => state.Auth.curUser);
+    console.log(curUser);
 
     return isAuthenticated ?
         (
@@ -64,6 +65,7 @@ const SpaceComment: React.FC = () => {
 
 const SpaceList: React.FC = () => {
     const orders: OrderType[] = useSelector<RootState, any>(state => state.Orders);
+    console.log(orders);
     const curUser = useSelector<RootState, any>(state => state.Auth.curUser);
     const userName = curUser.userName;
     const ownOrders = orders.filter(val => val.user === userName);
@@ -78,9 +80,9 @@ const SpaceList: React.FC = () => {
                 <li>
                     <Card hoverable={true}>
                         <Descriptions layout="horizontal" size="middle">
-                            <Descriptions.Item label="购买名称">: <span>{item.goodsName}</span></Descriptions.Item>
-                            <Descriptions.Item label="购买数量">: <span>{item.goodsNumber}</span></Descriptions.Item>
-                            <Descriptions.Item label="总价">: <span style={{ color: "red", fontSize: "24px" }}>{item.sumPrice}</span></Descriptions.Item>
+                            <Descriptions.Item label="购买名称"><span>{item.goodsName}</span></Descriptions.Item>
+                            <Descriptions.Item label="购买数量"><span>{item.goodsNumber}</span></Descriptions.Item>
+                            <Descriptions.Item label="总价"><span style={{ color: "red", fontSize: "24px" }}>{item.sumPrice}</span></Descriptions.Item>
                         </Descriptions>
                     </Card>
                 </li>

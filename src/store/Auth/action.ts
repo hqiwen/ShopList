@@ -11,6 +11,11 @@ export const setAuthenticate = (isAuthenticated: boolean) => ({
     payload: isAuthenticated
 })
 
+export const setCurUser = (curUser) => ({
+    type: LOGIN,
+    user: curUser
+})
+
 function getUseByUserName(user: User[], username: string) {
     return user.filter((val) => { return val.userName === username })[0];
 }
@@ -25,22 +30,10 @@ export function shouldLogin(user: User[], username: string, password: string | n
 }
 
 //@api/login
-const Login = (body) => {
+const LoginTodo = (body) => {
     return function (dispatch) {
         login(body).then(payload => {//{ user: User, succcess : string, error : string }
             dispatch({ type: LOGIN, payload });
         });
     }
-}
-
-export { Login };
-
-let curUser = {
-    "userId": -1,
-    "userName": "",
-    "userPassword": ""
-};
-
-function getCurUser() {
-    return curUser;
 }
