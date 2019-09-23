@@ -2,12 +2,19 @@ import { Icon, Menu } from "antd/es";
 import SubMenu from "antd/es/menu/SubMenu";
 import React from "react";
 import { Link } from "react-router-dom";
-import { getGoodsKind } from "../page/Home";
 
-const SiderMenu: React.FC = () => {
+function getGoodsKind(goods) {
+    return goods.map(val => val.GoodsKind);
+}
+
+interface SiderMenuProp {
+    goods: any;
+}
+
+const SiderMenu: React.FC<SiderMenuProp> = (props) => {
     //展示前四位
     const goodsIds = [1, 2, 3, 4];
-    const kinds = getGoodsKind();
+    const kinds = getGoodsKind(props.goods);
     const formatIds = kinds.map(val => goodsIds.map(id => `/goods/${val}/${id}`))
     return (
         <Menu

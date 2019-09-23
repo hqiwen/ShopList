@@ -9,6 +9,7 @@ export interface GoodsProduct {
     goodsId: number;
     goodsName: string;
     goodsPrice: number;
+    discount: number;
 }
 
 export interface GetGoodsAction {

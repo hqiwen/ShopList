@@ -1,4 +1,5 @@
-import { AuthActionTypes, GETUSER, SetAuthenticate, User } from "./actionType";
+import { login } from "../../Api/api";
+import { AuthActionTypes, GETUSER, LOGIN, SetAuthenticate, User } from "./actionType";
 
 export const getUser = (username: string): AuthActionTypes => ({
     type: GETUSER,
@@ -8,6 +9,11 @@ export const getUser = (username: string): AuthActionTypes => ({
 export const setAuthenticate = (isAuthenticated: boolean) => ({
     type: SetAuthenticate,
     payload: isAuthenticated
+})
+
+export const setCurUser = (curUser) => ({
+    type: LOGIN,
+    user: curUser
 })
 
 function getUseByUserName(user: User[], username: string) {
@@ -23,12 +29,11 @@ export function shouldLogin(user: User[], username: string, password: string | n
     }
 }
 
-let curUser = {
-    "userId": -1,
-    "userName": "",
-    "userPassword": ""
-};
-
-function getCurUser() {
-    return curUser;
+//@api/login
+const LoginTodo = (body) => {
+    return function (dispatch) {
+        login(body).then(payload => {//{ user: User, succcess : string, error : string }
+            dispatch({ type: LOGIN, payload });
+        });
+    }
 }

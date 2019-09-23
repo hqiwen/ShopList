@@ -1,7 +1,12 @@
-import { AuthActionTypes, AuthState, GETUSER, SetAuthenticate } from "./actionType";
+import { AuthActionTypes, AuthState, GETUSER, LOGIN, SetAuthenticate } from "./actionType";
 
 const defaultState: AuthState = {
     isAuthenticated: false,
+    curUser: {
+        "userId": -1,
+        "userName": "",
+        "userPassword": ""
+    },
     user: [
         {
             userId: 1,
@@ -16,17 +21,19 @@ const defaultState: AuthState = {
     ]
 };
 
-export default function Auth(state = defaultState, action: AuthActionTypes): AuthState {
+export default function Auth(state: AuthState = defaultState, action: AuthActionTypes): AuthState {
     switch (action.type) {
         case GETUSER:
-            return Object.assign({}, state, {
-                user: state.user.filter(val => {
-                    return val.userName === action.username;
-                })[0]
-            })
+            return state;
         case SetAuthenticate:
             return Object.assign({}, state, {
-                isAuthenticated : action.payload
+                isAuthenticated: action.payload
             })
+        case LOGIN: 
+            return Object.assign({}, state, {
+                curUser: action.user
+            })
+        default:
+            return state
     }
 };

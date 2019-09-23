@@ -1,22 +1,42 @@
-import { Button, Checkbox, Form, Icon, Input } from "antd/es";
+import { Button, Checkbox, Form, Icon, Input, Modal } from "antd/es";
 import { FormComponentProps } from "antd/es/form";
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect, RouteComponentProps } from "react-router-dom";
-import { fakeAuth } from "../App";
+import { RootState } from "..";
+import { setAuthenticate, setCurUser, shouldLogin } from "../store/Auth/action";
+
+function loginError() {
+    Modal.error({
+        title: "当前用户不存在",
+        content: "请检查用户名和密码，重新输入"
+    })
+}
+
+function getUseByUserName(user, username: string) {
+    return user.filter((val) => { return val.userName === username })[0];
+}
 
 const AuthLogin: React.FC<RouteComponentProps> = (props) => {
-    const [redirectToReferrer, setRedirectToReferrer] = useState(false);
+    const isAuthenticated = useSelector<RootState, any>(state => state.Auth.isAuthenticated);
+    const user = useSelector<RootState, any>(state => state.Auth.user);
+    const dispatch = useDispatch();
 
     const login = (userName: string, userPassword: string | number) => {
-        fakeAuth.authenticate(userName, userPassword, () => {
-            setRedirectToReferrer(true);
-        });
+        if (shouldLogin(user, userName, userPassword)) {
+            let curUser = getUseByUserName(user, userName);
+            console.log(curUser);
+            dispatch(setCurUser(curUser));
+            dispatch(setAuthenticate(true));
+        } else {
+            loginError();
+        }
     };
 
     let { from } = props.location.state || { from: { pathname: "/" } };
 
     return (
-        redirectToReferrer ? <Redirect to={from} /> : (
+        isAuthenticated ? <Redirect to={from} /> : (
             <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)", boxShadow:"3px 3px 1px grey", padding: "15px", border: "1px solid grey"}}>
                 <WrappedLoginForm login={login}></WrappedLoginForm>
             </div>
@@ -83,5 +103,4 @@ const Login: React.FC<LoginProps> = (props) => {
 
 const WrappedLoginForm = Form.create<LoginProps>({ name: 'normal_login' })(Login);
 
-export { fakeAuth };
 export default AuthLogin;

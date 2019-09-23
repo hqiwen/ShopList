@@ -1,8 +1,9 @@
 import { Col, Divider, Menu, Row } from "antd/es";
 import { History } from "history";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux/es";
 import { Link, withRouter } from "react-router-dom";
-import { fakeAuth } from "../App";
+import { RootState } from "..";
 import logo from "../logo.svg";
 
 const Logo: React.FC = () => {
@@ -19,11 +20,19 @@ interface NavPorps{
 
 const Nav: React.FC<NavPorps> = (props) => {
     const [current, setCurrent] = useState("home");
-    return fakeAuth.isAuthenticated ? (
+    const isAuthenticated = useSelector<RootState, any>(state => state.Auth.isAuthenticated);
+    const dispatch = useDispatch();
+
+    function signout(cb) {
+        dispatch({ type: "SetAuthenticate", payload: false });
+        setTimeout(cb, 2000);
+    }
+    
+    return isAuthenticated ? (
         <Menu onClick={(e) => setCurrent(e.key)} selectedKeys={[current]} mode="horizontal" style={{ lineHeight: '64px' }} theme="light">
             <Menu.Item key="home"><Link to="/">首页</Link></Menu.Item>
             <Menu.Item key="login" onClick={() => {
-                fakeAuth.signout(() => props.history.push("/"));
+                signout(() => props.history.push("/"));
             }}>登出</Menu.Item>
             <Menu.Item key="space"><Link to="/space">个人中心</Link></Menu.Item>
         </Menu>

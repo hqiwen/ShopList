@@ -15,5 +15,7 @@ export default (state = defaultState, action: OrderActionType) : Order[] => {
             return state;
         case POSTORDER: 
             return [...state, action.order]
+        default:
+            return state
     }
 };
