@@ -2,7 +2,7 @@
 
 ## 思路与构造
 
-利用React-Router搭建了四个页面，首页`/`, 商品详情页`/goods/:kind/:id`,登录页`/login`,个人中心页`/space`,公共组件头部`Header`导航，尾部`Footer`许可。
+利用React+React-router+React-redux搭建了四个页面，首页`/`, 商品详情页`/goods/:kind/:id`,登录页`/login`,个人中心页`/space`,公共组件头部`Header`导航，尾部`Footer`许可。语言使用typescript。
 
 首页拿到商品列表并提供链接
 
