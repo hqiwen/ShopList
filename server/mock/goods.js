@@ -1,4 +1,4 @@
-export const goods = [
+const goods = [
     {
         "GoodsKind": "家电",
         "GoodsProduct": [
@@ -40,3 +40,5 @@ export const goods = [
         ]
     }
 ]
+
+module.exports = goods

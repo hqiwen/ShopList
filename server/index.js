@@ -1,8 +1,8 @@
-import fs from "fs";
-import Koa from "koa";
-import koaBody from "koa-body";
-import Router from "koa-router";
-import path from "path";
+const fs = require('fs');
+const Koa = require('koa');
+const koaBody = require('koa-body');
+const Router = require('koa-router')
+const path = require('path')
 
 const app = new Koa();
 const router = new Router({
@@ -11,29 +11,42 @@ const router = new Router({
 
 let goods = require('./mock/goods');
 router.get('/getGood', async ctx => {
-    ctx.body = JSON.stringify(goods);
+    ctx.body = JSON.stringify({
+        code: 200,
+        data: goods
+    });
 });
 
 let comments = require('./mock/comments');
 router.get('/getComment', async ctx => {
-    ctx.body = JSON.stringify(comments);
+    ctx.body = JSON.stringify({
+        code: 200,
+        data: comments
+    });
 });
 
 let users = require('./mock/user');
 router.get('/getUser', async ctx => {
-    ctx.body = JSON.stringify(users);
+    ctx.body = JSON.stringify({
+        code: 200,
+        data: users
+    });
 });
 
 let order = require('./mock/order');
 router.get('/getOrder', async ctx => {
-    ctx.body = JSON.stringify(order);
+    ctx.body = JSON.stringify({
+        code: 200,
+        data: order
+    });
 });
 
 router.post('/postOrder', koaBody(), async ctx => {
     let body = ctx.req.body; //{"user": "Jack","sumPrice": 30,"goodsName" : "A7" }
     order.push(body);
     ctx.body = JSON.stringify({
-        success: '订单成功'
+        code: 200,
+        info: '订单成功'
     });
 })
 
@@ -43,12 +56,14 @@ router.post('/login', koaBody(), async ctx => {
     if (user) {
         ctx.req.session.user = user;
         ctx.body = JSON.stringify({
-            user,
-            success: '登录成功'
+            code: 200,
+            data: user,
+            info: '登录成功'
         });
     } else {
         ctx.body = JSON.stringify({
-            error: '登录失败'
+            code: 401,
+            info: '登录失败'
         });
     }
 });
@@ -74,4 +89,4 @@ app.use(async (ctx, next) => {
 
 app.use(router.routes()).use(router.allowedMethods())
 
-app.listen(3000, console.log("app is start at port 3000"));
+app.listen(3000, console.log("app is start at port 3000 !!!"));

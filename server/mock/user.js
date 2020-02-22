@@ -1,4 +1,4 @@
-export const user = [
+const user = [
     {
         "userId": 1,
         "userName": "Jack",
@@ -16,3 +16,5 @@ const curUser = {
     "userName": "",
     "userPassword": ""
 };
+
+module.exports = user
