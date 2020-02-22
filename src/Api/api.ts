@@ -1,4 +1,14 @@
+import { Modal } from "antd/es";
+
 const DOMAIN = 'http://localhost:3000';
+
+
+function fetchError(info) {
+    Modal.error({
+        title: "请求错误",
+        content: info
+    })
+}
 
 function get(url: string, params?: {}) {
     if (params) {
@@ -10,7 +20,7 @@ function get(url: string, params?: {}) {
             url += "&" + paramsArray.join("&")
         }
     }
-    return fetch(DOMAIN + url).then(response => response.json())
+    return fetch(DOMAIN + url).then(response => response.json(), err => fetchError(err))
 }
 
 function post(url, data) {
@@ -21,7 +31,7 @@ function post(url, data) {
             "Accept": "application/json"
         },
         body: JSON.stringify(data)
-    }).then(response => response.json());
+    }).then(response => response.json(), err => fetchError(err))
 }
 
 export function getGoods() {
@@ -34,10 +44,6 @@ export function getComments() {
 
 export function getOrders() {
     return get('/api/getOrder');
-}
-
-export function getUser() {
-    return get('/api/getUser');
 }
 
 export function login(data) {

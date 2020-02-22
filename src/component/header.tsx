@@ -1,10 +1,11 @@
 import { Col, Divider, Menu, Row } from "antd/es";
 import { History } from "history";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux/es";
+import { useSelector } from "react-redux/es";
 import { Link, withRouter } from "react-router-dom";
 import { RootState } from "..";
 import logo from "../logo.svg";
+import { signout } from "../store/Auth/action";
 
 const Logo: React.FC = () => {
     return (
@@ -21,12 +22,6 @@ interface NavPorps{
 const Nav: React.FC<NavPorps> = (props) => {
     const [current, setCurrent] = useState("home");
     const isAuthenticated = useSelector<RootState, any>(state => state.Auth.isAuthenticated);
-    const dispatch = useDispatch();
-
-    function signout(cb) {
-        dispatch({ type: "SetAuthenticate", payload: false });
-        setTimeout(cb, 2000);
-    }
     
     return isAuthenticated ? (
         <Menu onClick={(e) => setCurrent(e.key)} selectedKeys={[current]} mode="horizontal" style={{ lineHeight: '64px' }} theme="light">

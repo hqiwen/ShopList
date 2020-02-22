@@ -1,19 +1,20 @@
 import { Button } from "antd";
 import { Breadcrumb, Card, Col, Comment, Descriptions, Icon, List, Modal, Row, Tooltip } from "antd/es";
 import moment from "moment";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux/es";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux/es";
 import { RouteComponentProps } from "react-router";
 import Footer from "../component/footer";
 import Header from "../component/header";
 import { RootState } from "../index";
+import { fetchComments } from "../store/Comments/action";
 import { Comment as CommentType } from "../store/Comments/actionType";
-import { POSTORDER } from "../store/Orders/actionType";
+import { fetchGoods } from "../store/Goods/action";
+import { addOrder } from "../store/Orders/action";
 
 function getGoods(goods, goodsKind: string, goodsId: number) {
     const GoodsArray = goods.find(val => val.GoodsKind === goodsKind).GoodsProducts;
     const goodOnly = GoodsArray.find(val => val.goodsId === goodsId);
-    console.log(goodOnly);
     return goodOnly;
 }
 
@@ -46,17 +47,23 @@ function success() {
 const Goods: React.FC<GoodsProps> = ({ match }) => {
     const goods = useSelector<RootState, any>(state  => state.Goods);
     const comments: CommentType[] = useSelector<RootState, any>(state => state.Comments);
-    const curUser = useSelector<RootState, any>(state => state.Auth.curUser);
+    const curUser = useSelector<RootState, any>(state => state.Auth.curUser) || {};
     const { goodsKind, goodsId } = match.params;
     const { goodsName, goodsPrice, discount } = getGoods(goods, goodsKind, parseInt(goodsId));
     const [buyNumber, setBuyNumber] = useState(1);
     const sumPrice = (buyNumber * discount * goodsPrice).toFixed(2);
-    const dispatch = useDispatch();
+
+    useEffect(() => {
+        fetchGoods()
+    }, [])
+
+    useEffect(() => {
+        fetchComments()
+    },[])
 
     function postOrder(goodsName, sumPrice, goodsNumber) {
-        if (curUser.userId >= 0) {
-            dispatch({ type: POSTORDER, order: { user: curUser.userName, goodsName: goodsName, sumPrice: sumPrice, goodsNumber: goodsNumber } })
-            success();
+        if (curUser && curUser.usrId && curUser.userId >= 0) {
+            addOrder({ user: curUser.userName, goodsName: goodsName, sumPrice: sumPrice, goodsNumber: goodsNumber }, success)
         } else {
             loginError();
         }

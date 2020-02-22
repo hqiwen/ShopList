@@ -1,11 +1,13 @@
 import { Card, Comment, Descriptions, Divider, List } from "antd/es";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux/es";
 import { Redirect } from "react-router";
 import Footer from "../component/footer";
 import Header from "../component/header";
 import { RootState } from "../index";
+import { fetchComments } from "../store/Comments/action";
 import { Comment as CommentType } from "../store/Comments/actionType";
+import { fetchOrders } from "../store/Orders/action";
 import { Order as OrderType } from "../store/Orders/actionType";
 
 const Space: React.FC = () => {
@@ -44,6 +46,11 @@ const SpaceComment: React.FC = () => {
     const curUser = useSelector<RootState, any>(state => state.Auth.curUser);
     const userName = curUser.userName;
     const ownComments = comments.filter(val => val.user === userName);
+
+    useEffect(() => {
+        fetchComments()
+    }, [])
+    
     return (
         <List
             style={{ padding: 15 }}
@@ -69,6 +76,10 @@ const SpaceList: React.FC = () => {
     const curUser = useSelector<RootState, any>(state => state.Auth.curUser);
     const userName = curUser.userName;
     const ownOrders = orders.filter(val => val.user === userName);
+
+    useEffect(() => {
+        fetchOrders()
+    }, [])
 
     return (
         <List

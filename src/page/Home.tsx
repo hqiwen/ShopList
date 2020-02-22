@@ -1,11 +1,12 @@
 import { Col, Layout, Row } from "antd/es";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux/es";
 import Footer from "../component/footer";
 import Header from "../component/header";
 import SameKindGoods from "../component/SameKindGoods";
 import SiderMenu from "../component/SiderMenu";
 import { RootState } from "../index";
+import { fetchGoods } from "../store/Goods/action";
 const { Sider } = Layout;
 
 const GoodsPadding: React.FC = () => {
@@ -16,8 +17,11 @@ const GoodsPadding: React.FC = () => {
 
 const Home: React.FC = () => {
     const goods = useSelector<RootState, any>(state => state.Goods);
-
     console.log(goods);
+
+    useEffect(() => {
+        fetchGoods()
+    }, [])
 
     return (
         <div>

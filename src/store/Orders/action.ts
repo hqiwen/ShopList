@@ -1,11 +1,19 @@
+import { getOrders, postOrder } from "../../Api/api";
 import * as ActionTypes from "./actionType";
 
-export const getOrders = () => ({
-    type: ActionTypes.GETORDERS
-});
+export const fetchOrders = () => {
+    return function (dispatch) {
+        getOrders().then(payload => {
+            dispatch({ type: ActionTypes.GETORDERS, payload });
+        });
+    }
+}
 
-export const postOrder = (order: ActionTypes.Order) => ({
-           type: ActionTypes.POSTORDER,
-           order: order
-       });
-
+export const addOrder = (order: ActionTypes.Order, cb: Function) => {
+    return function (dispatch) {
+        postOrder(order).then(payload => {
+            dispatch({ type: ActionTypes.POSTORDER, payload });
+            cb && cb();
+        });
+    }
+}

@@ -17,7 +17,8 @@ const defaultState: Comment[] = [
 export default (state = defaultState, action) => {
     switch (action.type) {
         case GETCOMMENTS:
-            return state;
+            let payload = action.payload
+            return [...payload];
         default:
             return state
     }

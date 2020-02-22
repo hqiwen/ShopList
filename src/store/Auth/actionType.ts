@@ -1,12 +1,6 @@
-export const GETUSER = "GETUSER";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const SetAuthenticate = "SetAuthenticate"
-
-export interface GetUserAction {
-  type: typeof GETUSER
-  username: string
-}
 
 export interface LoginAction {
     type: typeof LOGIN;
@@ -23,7 +17,7 @@ export interface LogoutAction {
     cb: Function;
 }
 
-export type AuthActionTypes = GetUserAction | SetAuthenticateAction | LoginAction;
+export type AuthActionTypes = SetAuthenticateAction | LoginAction;
 
 export interface User {
     userId: number;
@@ -32,7 +26,7 @@ export interface User {
 }
 
 export interface AuthState {
-    isAuthenticated: false;
+    isAuthenticated: boolean;
     curUser: User,
     user: User[];
 }

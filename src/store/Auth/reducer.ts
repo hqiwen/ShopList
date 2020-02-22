@@ -1,5 +1,4 @@
-import { AuthActionTypes, AuthState, GETUSER, LOGIN, SetAuthenticate } from "./actionType";
-
+import { AuthActionTypes, AuthState, LOGIN, SetAuthenticate } from "./actionType";
 const defaultState: AuthState = {
     isAuthenticated: false,
     curUser: {
@@ -23,16 +22,10 @@ const defaultState: AuthState = {
 
 export default function Auth(state: AuthState = defaultState, action: AuthActionTypes): AuthState {
     switch (action.type) {
-        case GETUSER:
-            return state;
         case SetAuthenticate:
-            return Object.assign({}, state, {
-                isAuthenticated: action.payload
-            })
+            return {...state, isAuthenticated: action.payload}
         case LOGIN: 
-            return Object.assign({}, state, {
-                curUser: action.user
-            })
+            return {...state, curUser: action.user}
         default:
             return state
     }
