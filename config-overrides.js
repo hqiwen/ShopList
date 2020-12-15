@@ -1,9 +1,11 @@
 const path = require("path");
+const { override, useBabelRc } = require("customize-cra");
 
 function resolve(dir) {
-    return path.join(__dirname, ".", dir);
+  return path.join(__dirname, ".", dir);
 }
 
-module.exports = function override(config, env) {
-    return config;
-}
+module.exports = override(
+  // 新增：支持babel配置文件+++++++++
+  useBabelRc()
+);
