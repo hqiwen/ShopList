@@ -18,9 +18,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src", "server/mock.js"
+    "src",
+    "server/mock.js"
   ]
 }

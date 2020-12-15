@@ -1,39 +1,52 @@
-import { AuthActionTypes, AuthState, GETUSER, LOGIN, SetAuthenticate } from "./actionType";
+import {
+  AuthActionTypes,
+  AuthState,
+  LOGIN,
+  LOGOUT,
+  SetAuthenticate,
+} from "./actionType";
 
 const defaultState: AuthState = {
-    isAuthenticated: false,
-    curUser: {
-        "userId": -1,
-        "userName": "",
-        "userPassword": ""
+  isAuthenticated: false,
+  curUser: {
+    userId: -1,
+    userName: "",
+    userPassword: "",
+  },
+  users: [
+    {
+      userId: 1,
+      userName: "Jack",
+      userPassword: "ccc",
     },
-    user: [
-        {
-            userId: 1,
-            userName: "Jack",
-            userPassword: "ccc"
-        },
-        {
-            userId: 2,
-            userName: "Tom",
-            userPassword: "aaa"
-        }
-    ]
+    {
+      userId: 2,
+      userName: "Tom",
+      userPassword: "aaa",
+    },
+  ],
 };
 
-export default function Auth(state: AuthState = defaultState, action: AuthActionTypes): AuthState {
-    switch (action.type) {
-        case GETUSER:
-            return state;
-        case SetAuthenticate:
-            return Object.assign({}, state, {
-                isAuthenticated: action.payload
-            })
-        case LOGIN: 
-            return Object.assign({}, state, {
-                curUser: action.user
-            })
-        default:
-            return state
-    }
-};
+export default function Auth(
+  state: AuthState = defaultState,
+  action: AuthActionTypes
+): AuthState {
+  switch (action.type) {
+    case SetAuthenticate:
+      return { ...state, isAuthenticated: action.payload };
+    case LOGIN:
+      return { ...state, curUser: action.user };
+    case LOGOUT:
+      return {
+        ...state,
+        isAuthenticated: false,
+        curUser: {
+          userId: -1,
+          userName: "",
+          userPassword: "",
+        },
+      };
+    default:
+      return state;
+  }
+}

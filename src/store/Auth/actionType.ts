@@ -1,38 +1,35 @@
-export const GETUSER = "GETUSER";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
-export const SetAuthenticate = "SetAuthenticate"
-
-export interface GetUserAction {
-  type: typeof GETUSER
-  username: string
-}
+export const SetAuthenticate = "SetAuthenticate";
 
 export interface LoginAction {
-    type: typeof LOGIN;
-    user: User;
+  type: typeof LOGIN;
+  user: User;
 }
 
 export interface SetAuthenticateAction {
-    type: typeof SetAuthenticate;
-    payload: boolean;
+  type: typeof SetAuthenticate;
+  payload: boolean;
 }
 
 export interface LogoutAction {
-    type: typeof LOGOUT;
-    cb: Function;
+  type: typeof LOGOUT;
+  cb: Function;
 }
 
-export type AuthActionTypes = GetUserAction | SetAuthenticateAction | LoginAction;
+export type AuthActionTypes =
+  | SetAuthenticateAction
+  | LoginAction
+  | LogoutAction;
 
 export interface User {
-    userId: number;
-    userName: string;
-    userPassword: string | number;
+  userId: number;
+  userName: string;
+  userPassword: string | number;
 }
 
 export interface AuthState {
-    isAuthenticated: false;
-    curUser: User,
-    user: User[];
+  isAuthenticated: boolean;
+  curUser: User;
+  users: User[];
 }

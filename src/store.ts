@@ -7,5 +7,5 @@ import Orders from "./store/Orders/reducer";
 const rootReducer = combineReducers({ Auth, Goods, Comments, Orders });
 
 export default function configureStore(preloadedState?) {
-                   return createStore(rootReducer, preloadedState);
-               }
+  return createStore(rootReducer, preloadedState);
+}
