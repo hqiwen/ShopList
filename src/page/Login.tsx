@@ -2,6 +2,7 @@ import { Button, Checkbox, Form, Icon, Input, Modal } from "antd/es";
 import { FormComponentProps } from "antd/es/form";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { Redirect, RouteComponentProps } from "react-router-dom";
 import { RootState } from "..";
 import { login, shouldLogin } from "../store/Auth/action";
@@ -20,10 +21,15 @@ function getUseByUserName(users: User[], username: string) {
   });
 }
 
+interface fromLocation {
+  from: string;
+}
+
 const AuthLogin: React.FC<RouteComponentProps> = (props) => {
   const { isAuthenticated, users } = useSelector<RootState, AuthState>(
     (state) => state.Auth
   );
+
   const dispatch = useDispatch();
 
   const toLogin = (userName: string, userPassword: string | number) => {
@@ -37,11 +43,11 @@ const AuthLogin: React.FC<RouteComponentProps> = (props) => {
       loginError();
     }
   };
-
-  let { from } = props.location.state || { from: { pathname: "/" } };
+  let location = useLocation<fromLocation>();
+  let pathname = location.state?.from ?? "/";
 
   return isAuthenticated ? (
-    <Redirect to={from} />
+    <Redirect to={pathname} />
   ) : (
     <div
       style={{
@@ -108,7 +114,7 @@ const Login: React.FC<LoginProps> = (props) => {
           valuePropName: "checked",
           initialValue: true,
         })(<Checkbox>Remember me</Checkbox>)}
-        <a className="login-form-forgot" href="" style={{ cssFloat: "right" }}>
+        <a className="login-form-forgot fr" href="">
           Forgot password
         </a>
         <Button

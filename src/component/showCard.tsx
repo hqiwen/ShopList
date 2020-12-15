@@ -16,6 +16,7 @@ const ShowCard: React.FC<cardProps> = (props) => {
       cover={
         <Link to={path}>
           <img
+            width="100%"
             alt="example"
             src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
           />

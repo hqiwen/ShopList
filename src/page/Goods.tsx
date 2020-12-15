@@ -15,8 +15,7 @@ import moment from "moment";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux/es";
 import { RouteComponentProps } from "react-router";
-import Footer from "../component/footer";
-import Header from "../component/header";
+import MainContainer from "../component/MainContainer";
 import { RootState } from "../index";
 import { AuthState } from "../store/Auth/actionType";
 import { Comment as CommentType } from "../store/Comments/actionType";
@@ -42,9 +41,9 @@ interface GoodsProps extends RouteComponentProps {
       goodsId: string;
       goodsKind: string;
     };
-    isExact;
-    path;
-    url;
+    isExact: boolean;
+    path: string;
+    url: string;
   };
   goods: GoodsState;
 }
@@ -97,101 +96,95 @@ const Goods: React.FC<GoodsProps> = ({ match }) => {
   }
 
   return (
-    <div>
-      <Header />
-      <main>
-        <Breadcrumb>
-          <Breadcrumb.Item href="/">
-            <Icon type="home" />
-            Home
-          </Breadcrumb.Item>
-          <Breadcrumb.Item href="#">
-            <Icon type="user" />
-            {goodsName}
-          </Breadcrumb.Item>
-        </Breadcrumb>
-        <div style={{ height: 16 }}></div>
-        <Row>
-          <Col offset={2} span={6}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-            >
-              <Descriptions title="商品描述" layout="horizontal" size="middle">
-                <Descriptions.Item label="商品名">
-                  {goodsName}
-                </Descriptions.Item>
-                <Descriptions.Item label="商品价格">
-                  {goodsPrice}
-                </Descriptions.Item>
-              </Descriptions>
-            </Card>
-          </Col>
-          <Col offset={4} span={6}>
-            <h2>想要获得它</h2>
-            <p style={{ lineHeight: "24px" }}>
-              限时折扣: <span>{discount}</span>
-            </p>
-            <p style={{ lineHeight: "24px" }}>
-              购买数量: <span>{buyNumber}</span>
-            </p>
-            <Button
-              style={{ width: "50%" }}
-              onClick={() => setBuyNumber(buyNumber + 1)}
-            >
-              添加
-            </Button>
-            <Button
-              style={{ width: "50%" }}
-              onClick={() =>
-                buyNumber < 1 ? setBuyNumber(0) : setBuyNumber(buyNumber - 1)
-              }
-            >
-              减少
-            </Button>
-            <p style={{ lineHeight: "48px" }}>
-              总价:{" "}
-              <span style={{ color: "red", fontSize: "24px" }}>{sumPrice}</span>
-            </p>
-            <Button
-              style={{ width: "100%" }}
-              onClick={() => toPostOrder(goodsName, sumPrice, buyNumber)}
-            >
-              提交
-            </Button>
-          </Col>
-        </Row>
-        <div style={{ height: 16 }}></div>
-        <List
-          style={{ padding: 15 }}
-          header={`${comments.length} comments`}
-          itemLayout="horizontal"
-          dataSource={comments}
-          renderItem={(item) => (
-            <li>
-              <Comment
-                author={item.user}
-                avatar={item.avatar}
-                content={<p>{item.content}</p>}
-                datetime={
-                  <Tooltip
-                    title={moment(item.updateAt).format("YYYY-MM-DD HH:mm:ss")}
-                  >
-                    <span>{moment(item.updateAt).fromNow()}</span>
-                  </Tooltip>
-                }
+    <MainContainer>
+      <Breadcrumb>
+        <Breadcrumb.Item href="/">
+          <Icon type="home" />
+          Home
+        </Breadcrumb.Item>
+        <Breadcrumb.Item href="#">
+          <Icon type="user" />
+          {goodsName}
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <div className="base-height-gap"></div>
+      <Row>
+        <Col offset={2} span={6}>
+          <Card
+            cover={
+              <img
+                alt="example"
+                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
               />
-            </li>
-          )}
-        />
-        <Button>添加评论</Button>
-      </main>
-      <Footer></Footer>
-    </div>
+            }
+          >
+            <Descriptions title="商品描述" layout="horizontal" size="middle">
+              <Descriptions.Item label="商品名">{goodsName}</Descriptions.Item>
+              <Descriptions.Item label="商品价格">
+                {goodsPrice}
+              </Descriptions.Item>
+            </Descriptions>
+          </Card>
+        </Col>
+        <Col offset={4} span={6}>
+          <h2>想要获得它</h2>
+          <p style={{ lineHeight: "24px" }}>
+            限时折扣: <span>{discount}</span>
+          </p>
+          <p style={{ lineHeight: "24px" }}>
+            购买数量: <span>{buyNumber}</span>
+          </p>
+          <Button
+            style={{ width: "50%" }}
+            onClick={() => setBuyNumber(buyNumber + 1)}
+          >
+            添加
+          </Button>
+          <Button
+            style={{ width: "50%" }}
+            onClick={() =>
+              buyNumber < 1 ? setBuyNumber(0) : setBuyNumber(buyNumber - 1)
+            }
+          >
+            减少
+          </Button>
+          <p style={{ lineHeight: "48px" }}>
+            总价:{" "}
+            <span style={{ color: "red", fontSize: "24px" }}>{sumPrice}</span>
+          </p>
+          <Button
+            style={{ width: "100%" }}
+            onClick={() => toPostOrder(goodsName, sumPrice, buyNumber)}
+          >
+            提交
+          </Button>
+        </Col>
+      </Row>
+      <div className="base-height-gap"></div>
+      <List
+        style={{ padding: 15 }}
+        header={`${comments.length} comments`}
+        itemLayout="horizontal"
+        dataSource={comments}
+        renderItem={(item) => (
+          <li>
+            <Comment
+              author={item.user}
+              avatar={item.avatar}
+              content={<p>{item.content}</p>}
+              datetime={
+                <Tooltip
+                  title={moment(item.updateAt).format("YYYY-MM-DD HH:mm:ss")}
+                >
+                  <span>{moment(item.updateAt).fromNow()}</span>
+                </Tooltip>
+              }
+            />
+          </li>
+        )}
+      />
+      <Button>添加评论</Button>
+    </MainContainer>
   );
 };
 

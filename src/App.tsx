@@ -1,11 +1,11 @@
-import React, { Suspense } from "react"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-import "./App.css"
+import React, { Suspense } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./App.css";
 
-const Goods = React.lazy(() => import("./page/Goods"))
-const Home = React.lazy(() => import("./page/Home"))
-const Login = React.lazy(() => import("./page/Login"))
-const Space = React.lazy(() => import("./page/Space"))
+const Goods = React.lazy(() => import("./page/Goods"));
+const Home = React.lazy(() => import("./page/Home"));
+const Login = React.lazy(() => import("./page/Login"));
+const Space = React.lazy(() => import("./page/Space"));
 
 function AuthAPP() {
   return (
@@ -19,7 +19,7 @@ function AuthAPP() {
         </Switch>
       </Suspense>
     </Router>
-  )
+  );
 }
 
-export default AuthAPP
+export default AuthAPP;

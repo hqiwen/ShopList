@@ -2,8 +2,7 @@ import { Card, Comment, Descriptions, Divider, List } from "antd/es";
 import React from "react";
 import { useSelector } from "react-redux/es";
 import { Redirect } from "react-router";
-import Footer from "../component/footer";
-import Header from "../component/header";
+import MainContainer from "../component/MainContainer";
 import { RootState } from "../index";
 import { AuthState } from "../store/Auth/actionType";
 import { Comment as CommentType } from "../store/Comments/actionType";
@@ -15,29 +14,23 @@ const Space: React.FC = () => {
   );
 
   return isAuthenticated ? (
-    <div>
-      <Header />
-      <main>
-        <Descriptions title="个人信息" layout="horizontal" size="middle">
-          <Descriptions.Item label="用户名">
-            {curUser.userName}
-          </Descriptions.Item>
-          <Descriptions.Item label="用户密码">
-            {curUser.userPassword}
-          </Descriptions.Item>
-        </Descriptions>
-        <Divider></Divider>
-        <div>
-          <h2>我的评论</h2>
-          <SpaceComment />
-        </div>
-        <div>
-          <h2>我的订单</h2>
-          <SpaceList />
-        </div>
-      </main>
-      <Footer />
-    </div>
+    <MainContainer>
+      <Descriptions title="个人信息" layout="horizontal" size="middle">
+        <Descriptions.Item label="用户名">{curUser.userName}</Descriptions.Item>
+        <Descriptions.Item label="用户密码">
+          {curUser.userPassword}
+        </Descriptions.Item>
+      </Descriptions>
+      <Divider></Divider>
+      <div>
+        <h2>我的评论</h2>
+        <SpaceComment />
+      </div>
+      <div>
+        <h2>我的订单</h2>
+        <SpaceList />
+      </div>
+    </MainContainer>
   ) : (
     <Redirect to="/"></Redirect>
   );

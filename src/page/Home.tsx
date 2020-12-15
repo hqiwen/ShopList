@@ -1,8 +1,7 @@
 import { Col, Layout, Row } from "antd/es";
 import React from "react";
 import { useSelector } from "react-redux/es";
-import Footer from "../component/footer";
-import Header from "../component/header";
+import MainContainer from "../component/MainContainer";
 import SameKindGoods from "../component/SameKindGoods";
 import SiderMenu from "../component/SiderMenu";
 import { RootState } from "../index";
@@ -19,8 +18,7 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div>
-      <Header />
+    <MainContainer>
       <Layout>
         <Row>
           <Col span={4}>
@@ -46,8 +44,7 @@ const Home: React.FC = () => {
           </Col>
         </Row>
       </Layout>
-      <Footer />
-    </div>
+    </MainContainer>
   );
 };
 
